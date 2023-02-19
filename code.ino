@@ -3,7 +3,7 @@
 #include <LiquidCrystal_I2C.h>
 #include "HX711.h"
 
-LiquidCrystal_I2C lcd(0x20,16,2);  //0x20 for simulation and 0x27 for prototype
+LiquidCrystal_I2C lcd(0x27,16,2);  //0x20 for simulation and 0x27 for prototype
 
 int totalItems = 0;
 int initialDistance = 33;
@@ -175,7 +175,7 @@ void loop() {
           delay(2000);  //time required for the users to handl their out from the box
         }
 
-        if(distanceCm2 != initialDistance && switchState2 == LOW) {
+        if(distanceCm2 != initialDistance) {
           totalItems -= 1;
           delay(2000);  //time required for the users to handl their out from the box
         }
