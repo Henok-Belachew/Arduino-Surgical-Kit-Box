@@ -1,13 +1,11 @@
 
-#include "Wire.h"
 #include <LiquidCrystal_I2C.h>
-#include "HX711.h"
 
-LiquidCrystal_I2C lcd(0x27,16,2);  //0x20 for simulation and 0x27 for prototype
+
+LiquidCrystal_I2C lcd(0x20,16,2);  //0x20 for simulation and 0x27 for prototype
 
 int totalItems = 0;
 int initialDistance = 37;
-// int initialDistance_2 = 33;
 
 
 // GLOBAL VARIABLES FOR LED LIGHTS
@@ -16,12 +14,9 @@ int initialDistance = 37;
       int SWH1 = 10;
       int SWH2 = 8;
       int switchState1 = 0;
-      int switchState2 = LOW;
+      int switchState2 = 0;
       int buzPin = 7;
       //---------------//
-      int lastButtonState;    // the previous state of button
-      int currentButtonState; // the current state of button
-  
 
 // GLOBAL VARIABLES FOR ULTRASONIC SENSOR
 
@@ -52,30 +47,12 @@ void setup() {
         delay(1000);
         lcd.clear();
 
-  //  Setting UP VCC
-          pinMode(9, OUTPUT);
-          digitalWrite(9, HIGH); // USED AS VCC
  
   //  Setting UP LED lights
           pinMode(SWH1, INPUT_PULLUP);
           pinMode(SWH2, INPUT_PULLUP);
           pinMode(ledRed, OUTPUT);
           pinMode(ledGreen, OUTPUT);
-
-  int lastSwhState1;    // the previous state of THE SWITCH
-  int currentSwhState1; // the current state of THE SWTICH
-
-  int lastSwhState2;    // the previous state of THE SWITCH
-  int currentSwhState2; // the current state of THE SWTICH
-
-
-
-          //  Setting Initial State of LED LIGHTS
-          // digitalWrite(ledGreen, LOW);
-          // digitalWrite(ledRed, HIGH);
-
-          // CURRENT BUTTON STATE
-          // currentButtonState = digitalRead(btn);
 
   // Setting Pins for ULTRASONIC SENSORS
           pinMode(trigPin1, OUTPUT);
@@ -84,7 +61,7 @@ void setup() {
           pinMode(trigPin2, OUTPUT);
           pinMode(echoPin2, INPUT);
 
-  // Starting the SERIAL MONITOR
+  // Starting the SERIAL MONITOR for Debugging 
   Serial.begin(9600);
 }
 
@@ -119,10 +96,7 @@ void loop() {
           digitalWrite(ledGreen, HIGH);
           lcd.print("Extracting");
         }
-  
-  
 
-  
 
   // Getting measured DISTANCE VALUE
 
@@ -137,11 +111,7 @@ void loop() {
 
 
             Serial.println(distanceCm1);
-            // DISPLAYING MEASURED DISTANCE-1
-            // lcd.setCursor(0,0);
-            // lcd.print("Distance1:");
-            // lcd.print(distanceCm1);
-            // lcd.print(" Cm ");   
+             
   
       // Sensor-2
             digitalWrite(trigPin2, LOW);
@@ -154,19 +124,6 @@ void loop() {
 
             
             Serial.println(distanceCm2);
-
-
-            // sensor copy
-
-            
-
-            // DISPLAYING MEASURED DISTANCE-2
-          //  lcd.setCursor(0,1);
-          //   lcd.print("Dis:");
-          //   lcd.print(distanceCm1);
-          //   lcd.print(" - ");
-          //   lcd.print(distanceCm2);
-            // lcd.print(" Cm ");  
 
       // Getting the mode of the machine
       if (digitalRead(ledGreen) == HIGH && switchState2 == LOW) {  //Coutnting Mode
@@ -264,33 +221,10 @@ void loop() {
             delay(3000); //Time required for the users to handl their out from the box
             
           }
-            
-          
         }
-
       }
 
-      // Displaying the result on Serial Monitor
+      // Displaying the total number of items on Serial Monitor
       Serial.println(totalItems);
-      
-
-      
-
-
-      // Counting mode
-      // if(btn == HIGH){
-      //      // Counting total items
-      //     if(distanceCm1 != initialDistance) {
-      //       totalItems += 1;
-      //       delay(2000);  //time required for the users to handl their out from the box
-      //     }
-      // }
-      // else if (btn == LOW){
-      //   if(distanceCm1 != initialDistance) {
-      //       totalItems -= 1;
-      //       delay(2000);  //time required for the users to handl their out from the box
-      //     }
-      // }
-
   
 }
